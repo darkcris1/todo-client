@@ -2,7 +2,7 @@ import axios from 'axios'
 const baseURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8700'
-    : 'etodos.herokuapp.com'
+    : 'https://etodos.herokuapp.com'
 
 axios.interceptors.response.use((res) => {
   const { status } = res

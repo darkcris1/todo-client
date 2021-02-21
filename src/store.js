@@ -12,7 +12,7 @@ const todos = writable([])
 const socketURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8700'
-    : 'etodos.herokuapp.com'
+    : 'https://etodos.herokuapp.com'
 
 const socket = io(socketURL, {
   transports: ['websocket'],
