@@ -6,7 +6,7 @@
   [data-placeholder] {
     width: 100%;
     height: 30px;
-    background: rgba(179, 179, 179, 0.6);
+    background: rgba(204, 204, 204, 0.6);
     overflow: hidden;
     position: relative;
     border-radius: 5px;
