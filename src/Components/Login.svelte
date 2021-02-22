@@ -46,16 +46,18 @@
     }
   }
   const centerClass = 'd-flex justify-center align-center '
-  let isChanging = false
 </script>
 
 <div class={centerClass + 'pa-4'}>
   <form
     in:send={{ key: 'PAGETRANSITION' }}
     out:receive={{ key: 'PAGETRANSITION' }}
-    style={isChanging ? 'position: absolute;' : ''}
+    style={`max-width: 100%;`}
     on:submit|preventDefault={handleSubmit}>
-    <Card style="width: 25rem" class="rounded elevation-3" loading={isSigning}>
+    <Card
+      style="width: 25rem; max-width: 100%; "
+      class="rounded elevation-3"
+      loading={isSigning}>
       <div class="pa-4">
         <h2 class="mb-10 text-center">Login</h2>
         {#if errorMsg}

@@ -63,9 +63,10 @@
       <form
         in:send={{ key: 'PAGETRANSITION' }}
         out:receive={{ key: 'PAGETRANSITION' }}
+        style={`max-width: 100%;`}
         on:submit|preventDefault={handleSubmit}>
         <Card
-          style="width: 25rem"
+          style="width: 25rem;"
           class={`rounded elevation-2 white ${$theme === 'light' ? 'white' : 'grey darken-4'}`}
           loading={isRegistering}>
           <div class="pa-4">

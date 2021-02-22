@@ -8,7 +8,7 @@
     mdiLogout,
     mdiPlusBox,
   } from '@mdi/js'
-  import { user, theme, todos } from '../store'
+  import { user, theme, todos, todoStatus, error } from '../store'
   import http from '../http'
   function toggleTheme() {
     theme.update((prev) => {
@@ -22,8 +22,9 @@
       await http.get('/auth/logout')
       user.set(null)
       todos.set([])
-    } catch (error) {
-      alert('Connection error')
+      todoStatus.set({ error: false, isLoading: false })
+    } catch (err) {
+      error.set('Connection Error while signing out')
     }
   }
 </script>

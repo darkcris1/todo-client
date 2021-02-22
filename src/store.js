@@ -8,6 +8,7 @@ const user = writable(null)
 const error = writable('')
 const theme = writable('light')
 const todos = writable([])
+const todoStatus = writable({ error: false, isLoading: false })
 
 const socketURL =
   process.env.NODE_ENV === 'development'
@@ -22,6 +23,7 @@ export async function loginUser(res) {
   sessionStorage.setItem(AUTH_KEY, res.headers.authorization_token)
   user.set(res.data)
   try {
+    todoStatus.set({ error: false, isLoading: true })
     const result = await http.get(`/todo/${res.data.todoID}`, {
       headers: {
         authorization: 'Bearer ' + res.headers.authorization_token,
@@ -29,9 +31,12 @@ export async function loginUser(res) {
     })
 
     todos.set(result.data)
+    todoStatus.set({ error: false, isLoading: false })
   } catch (err) {
     if (err.response.status === 401)
       error.set('Invalid Token Please Login Again')
+
+    todoStatus.set({ error: true, isLoading: false })
   }
 }
 
@@ -78,4 +83,4 @@ function todoDispatch({ action, item }) {
   }
   if (action !== 'EDIT') saveTodo()
 }
-export { theme, user, todoDispatch, todos, error }
+export { theme, user, todoDispatch, todos, error, todoStatus }
