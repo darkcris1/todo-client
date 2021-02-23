@@ -1,15 +1,21 @@
 import axios from 'axios'
+
 const baseURL =
   process.env.NODE_ENV === 'development'
     ? 'http://localhost:8700'
     : 'https://etodos.herokuapp.com'
 
-axios.interceptors.response.use((res) => {
-  const { status } = res
-  if (status !== 401 && status !== 400 && status === 500) {
-    error.set('Unexpect Error Occured')
+axios.interceptors.response.use(null, (error) => {
+  const expectedError =
+    error.response &&
+    error.response.status >= 400 &&
+    error.response.status < 500
+
+  if (!expectedError) {
+    error.set('An unexpected error occured.')
   }
-  return res
+
+  return Promise.reject(error)
 })
 
 axios.defaults.baseURL = baseURL

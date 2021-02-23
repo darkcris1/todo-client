@@ -1,62 +1,11 @@
 import { writable } from 'svelte/store'
-import http from './http'
-import { io } from 'socket.io-client'
-
-const AUTH_KEY = 'TODO_KEY'
+import { saveTodo } from './services/socket'
 
 const user = writable(null)
 const error = writable('')
 const theme = writable('light')
 const todos = writable([])
 const todoStatus = writable({ error: false, isLoading: false })
-
-const socketURL =
-  process.env.NODE_ENV === 'development'
-    ? 'http://localhost:8700'
-    : 'https://etodos.herokuapp.com'
-
-const socket = io(socketURL, {
-  transports: ['websocket'],
-})
-
-export async function loginUser(res) {
-  sessionStorage.setItem(AUTH_KEY, res.headers.authorization_token)
-  user.set(res.data)
-  try {
-    todoStatus.set({ error: false, isLoading: true })
-    const result = await http.get(`/todo/${res.data.todoID}`, {
-      headers: {
-        authorization: 'Bearer ' + res.headers.authorization_token,
-      },
-    })
-
-    todos.set(result.data)
-    todoStatus.set({ error: false, isLoading: false })
-  } catch (err) {
-    if (err.response.status === 401)
-      error.set('Invalid Token Please Login Again')
-
-    todoStatus.set({ error: true, isLoading: false })
-  }
-}
-
-export async function session() {
-  try {
-    const res = await http.get('/auth/session')
-    loginUser(res)
-  } catch (_) {}
-}
-function saveTodo() {
-  const authToken = sessionStorage.getItem(AUTH_KEY)
-
-  // Access The data
-  todos.update((data) => {
-    socket.emit('save-todo', { token: authToken, data }, (err) => {
-      if (err) return error.set('asdasd')
-    })
-    return data
-  })
-}
 
 function todoDispatch({ action, item }) {
   switch (action) {
