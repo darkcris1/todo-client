@@ -1,18 +1,20 @@
 <script>
+  import jm from 'json-msg'
+  import { metatags, goto } from '@roxi/routify'
   import { Button, Overlay, Divider, Alert, Card } from 'svelte-materialify'
   import { mdiAccount, mdiKey } from '@mdi/js'
   import { send, receive } from '../crossfade'
-  import { loginUser, theme, user } from '../store'
-  import Input from '../Components/Input.svelte'
-  import { goto } from '@roxi/routify/runtime/helpers'
+  import { loginUser } from '../services/auth'
+  import { theme, user } from '../store'
   import http from '../http'
-  import jm from 'json-msg'
   import { tick } from 'svelte'
-  import { metatags } from '@roxi/routify'
+  import Input from '../Components/Input.svelte'
 
   metatags.title = 'Register • Todo App'
   metatags.description = 'Register to get started'
-  $: $user && $goto('/')
+
+  $: $user && $goto('/todo')
+
   let errorMsg = ''
   let isRegistering = false
   let inputs = {
@@ -54,6 +56,7 @@
     }
   }
   const centerClass = 'd-flex justify-center align-center '
+  $: background = $theme === 'light' ? 'white' : 'grey darken-4'
 </script>
 
 {#if !$user}
@@ -61,15 +64,15 @@
 
     <div class={centerClass + 'pa-4'}>
       <form
-        in:send={{ key: 'PAGETRANSITION' }}
+        in:send={{ key: 'PAGETRANSITION', duration: 1000 }}
         out:receive={{ key: 'PAGETRANSITION' }}
         style={`max-width: 100%;`}
         on:submit|preventDefault={handleSubmit}>
         <Card
           style="width: 25rem;"
-          class={`rounded elevation-2 white ${$theme === 'light' ? 'white' : 'grey darken-4'}`}
+          class={`rounded elevation-2 ${background}`}
           loading={isRegistering}>
-          <div class="pa-4">
+          <div class={`pa-4`}>
 
             <h2 class="mb-10 text-center">Register</h2>
             {#if errorMsg}

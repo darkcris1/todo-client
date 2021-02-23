@@ -9,6 +9,7 @@
 {#if tooltip}
   <Tooltip top>
     <Button
+      aria-label="action button"
       {...$$restProps}
       fab
       depressed
@@ -22,6 +23,7 @@
   </Tooltip>
 {:else}
   <Button
+    aria-label="action button"
     {...$$restProps}
     fab
     depressed

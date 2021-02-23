@@ -6,7 +6,8 @@
   import http from '../http'
   import jm from 'json-msg'
   import { tick } from 'svelte'
-  import { loginUser } from '../store'
+  import { loginUser } from '../services/auth'
+  import { goto } from '@roxi/routify'
   let errorMsg = ''
   let isSigning = false
 
@@ -35,11 +36,11 @@
       isSigning = true
       const res = await http.post('/auth/login', inputs)
       loginUser(res)
+      $goto('/todo')
     } catch (error) {
-      if (error.response.status !== 500) {
+      const status = error.response?.status
+      if (status >= 400 && status < 500) {
         errorMsg = error.response.data.message
-      } else {
-        errorMsg = 'Unexpected Error Occured'
       }
     } finally {
       isSigning = false
@@ -52,7 +53,7 @@
   <form
     in:send={{ key: 'PAGETRANSITION' }}
     out:receive={{ key: 'PAGETRANSITION' }}
-    style={`max-width: 100%;`}
+    style={`max-width: 100%`}
     on:submit|preventDefault={handleSubmit}>
     <Card
       style="width: 25rem; max-width: 100%; "

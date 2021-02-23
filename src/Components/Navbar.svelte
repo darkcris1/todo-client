@@ -8,24 +8,14 @@
     mdiLogout,
     mdiPlusBox,
   } from '@mdi/js'
-  import { user, theme, todos, todoStatus, error } from '../store'
-  import http from '../http'
+  import { user, theme } from '../store'
+  import { logoutUser } from '../services/auth'
+
   function toggleTheme() {
     theme.update((prev) => {
       if (prev === 'light') return 'dark'
       return 'light'
     })
-  }
-  async function handleLogout() {
-    // Reset the stores
-    try {
-      await http.get('/auth/logout')
-      user.set(null)
-      todos.set([])
-      todoStatus.set({ error: false, isLoading: false })
-    } catch (err) {
-      error.set('Connection Error while signing out')
-    }
   }
 </script>
 
@@ -43,7 +33,7 @@
         <ButtonIcon aria-label="avatar icon" icon={mdiAccount} />
       </div>
       <List>
-        <ListItem on:click={handleLogout}>
+        <ListItem on:click={logoutUser}>
           <Icon path={mdiLogout} class="ma-0" />
           Logout
         </ListItem>
