@@ -10,8 +10,8 @@ export function getCookie(cname) {
   const name = cname + '='
   const decodedCookie = decodeURIComponent(document.cookie)
   const ca = decodedCookie.split(';')
-  for (const i = 0; i < ca.length; i++) {
-    const c = ca[i]
+  for (let i = 0; i < ca.length; i++) {
+    let c = ca[i]
     while (c.charAt(0) == ' ') {
       c = c.substring(1)
     }
