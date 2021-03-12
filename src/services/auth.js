@@ -26,6 +26,11 @@ export async function getInitalTodos(token, todoID) {
   } catch (err) {
     if (err.response.status === 401) error.set('Unauthorized user')
 
+    if (err.response.status === 404) {
+      todoStatus.set({ error: false, isLoading: false })
+      return
+    }
+
     todoStatus.set({ error: true, isLoading: false })
   }
 }
