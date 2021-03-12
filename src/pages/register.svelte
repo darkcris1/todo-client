@@ -71,6 +71,7 @@
         <Card
           style="width: 25rem;"
           class={`rounded elevation-2 ${background}`}
+          disabled={isRegistering}
           loading={isRegistering}>
           <div class={`pa-4`}>
 

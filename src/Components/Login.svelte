@@ -56,6 +56,7 @@
     style={`max-width: 100%`}
     on:submit|preventDefault={handleSubmit}>
     <Card
+      disabled={isSigning}
       style="width: 25rem; max-width: 100%; "
       class="rounded elevation-3"
       loading={isSigning}>
@@ -83,7 +84,6 @@
 
         <div>
           <Button
-            disabled={isSigning}
             block
             size="large"
             type="submit"
