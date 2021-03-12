@@ -4,8 +4,10 @@
   import Login from '../Components/Login.svelte'
 
   metatags.title = 'Login • Etodos'
+
+  $: if ($user) $goto('/todo')
 </script>
 
 {#if !$user}
   <Login />
-{:else}{$goto('/todo')}{/if}
+{/if}
